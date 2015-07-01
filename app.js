@@ -115,7 +115,6 @@ function createLights() {
 
     shadowLight = new THREE.DirectionalLight(0xffffff, .8);
     shadowLight.position.set(200, 200, 200);
-    shadowLight.castShadow = true;
     shadowLight.shadowDarkness = .2;
 
     backLight = new THREE.DirectionalLight(0xffffff, .4);
@@ -242,10 +241,9 @@ Elephant = function () {
     });
 
     var bodyGeom = new THREE.CylinderGeometry(60, 90, 140, 16);
-    var faceGeom = new THREE.BoxGeometry(80, 120, 80);
     var tuskGeom = new THREE.CylinderGeometry(5, 10, 70, 10);
     tuskGeom.applyMatrix(new THREE.Matrix4().makeRotationX(-4));
-    var earGeom = new THREE.BoxGeometry(120, 120, 20);
+    var earGeom = new THREE.BoxGeometry(120, 125, 20);
     earGeom.applyMatrix(new THREE.Matrix4().makeRotationY(10));
     var noseGeom = new THREE.CylinderGeometry(25, 10, 120, 50);
     noseGeom.applyMatrix(new THREE.Matrix4().makeRotationX(-6.6));
@@ -345,13 +343,13 @@ Elephant = function () {
     // ear
     this.rightEar = new THREE.Mesh(earGeom, this.blueMat);
     this.rightEar.position.x = -80;
-    this.rightEar.position.y = 50;
+    this.rightEar.position.y = 13;
     this.rightEar.position.z = 105;
 
     this.leftEar = new THREE.Mesh(earGeom, this.blueMat);
-    this.leftEar.applyMatrix(new THREE.Matrix4().makeRotationY(-20));
+    this.leftEar.applyMatrix(new THREE.Matrix4().makeRotationZ(-Math.PI));
     this.leftEar.position.x = 80;
-    this.leftEar.position.y = 50;
+    this.leftEar.position.y = 13;
     this.leftEar.position.z = 105;
 
     // nose
