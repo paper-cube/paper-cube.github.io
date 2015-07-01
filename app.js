@@ -114,11 +114,11 @@ function createLights() {
     light = new THREE.HemisphereLight(0xffffff, 0xffffff, .5)
 
     shadowLight = new THREE.DirectionalLight(0xffffff, .8);
-    shadowLight.position.set(200, 200, 200);
+    shadowLight.position.set(0, 200, 150);
     shadowLight.shadowDarkness = .2;
 
     backLight = new THREE.DirectionalLight(0xffffff, .4);
-    backLight.position.set(-100, 200, 50);
+    backLight.position.set(0, 200, -100);
     backLight.shadowDarkness = .1;
     backLight.castShadow = true;
 
@@ -240,7 +240,7 @@ Elephant = function () {
         shading: THREE.FlatShading
     });
 
-    var bodyGeom = new THREE.CylinderGeometry(60, 90, 140, 16);
+    var bodyGeom = new THREE.CylinderGeometry(60, 90, 140, 10);
     var tuskGeom = new THREE.CylinderGeometry(5, 10, 70, 10);
     tuskGeom.applyMatrix(new THREE.Matrix4().makeRotationX(-4));
     var earGeom = new THREE.BoxGeometry(120, 125, 20);
@@ -249,31 +249,31 @@ Elephant = function () {
     noseGeom.applyMatrix(new THREE.Matrix4().makeRotationX(-6.6));
     var eyeGeom = new THREE.BoxGeometry(5, 20, 20);
     var irisGeom = new THREE.BoxGeometry(4, 10, 10);
-    var footGeom = new THREE.BoxGeometry(40, 35, 20);
+    var footGeom = new THREE.CylinderGeometry(27, 27, 40, 8);
 
     // body
     this.body = new THREE.Mesh(bodyGeom, this.blueMat);
-    this.body.position.z = -40;
+    this.body.position.z = -10;
     this.body.position.y = -2;
 
     // feet
     this.backLeftFoot = new THREE.Mesh(footGeom, this.blueMat);
-    this.backLeftFoot.position.z = -40;
-    this.backLeftFoot.position.x = 65;
+    this.backLeftFoot.position.z = -90;
+    this.backLeftFoot.position.x = 55;
     this.backLeftFoot.position.y = -85;
 
     this.backRightFoot = new THREE.Mesh(footGeom, this.blueMat);
-    this.backRightFoot.position.z = -40;
-    this.backRightFoot.position.x = -65;
+    this.backRightFoot.position.z = -90;
+    this.backRightFoot.position.x = -55;
     this.backRightFoot.position.y = -85;
 
     this.frontRightFoot = new THREE.Mesh(footGeom, this.blueMat);
-    this.frontRightFoot.position.z = 20;
+    this.frontRightFoot.position.z = 5;
     this.frontRightFoot.position.x = -32;
     this.frontRightFoot.position.y = -90;
 
     this.frontLeftFoot = new THREE.Mesh(footGeom, this.blueMat);
-    this.frontLeftFoot.position.z = 20;
+    this.frontLeftFoot.position.z = 5;
     this.frontLeftFoot.position.x = 32;
     this.frontLeftFoot.position.y = -90;
 
@@ -281,27 +281,27 @@ Elephant = function () {
     var k = 90,
         points = [
             // up
-            new THREE.Vector3(k/4, k + k / 4, k / 4),
-            new THREE.Vector3(k - k/4, k + k / 4, k / 4),
-            new THREE.Vector3(k - k/4, k + k / 4, k-k / 4),
-            new THREE.Vector3(k/4, k + k / 4, k-k / 4),
+            new THREE.Vector3(k / 4, k + k / 4, k / 4),
+            new THREE.Vector3(k - k / 4, k + k / 4, k / 4),
+            new THREE.Vector3(k - k / 4, k + k / 4, k - k / 4),
+            new THREE.Vector3(k / 4, k + k / 4, k - k / 4),
             //cube
             new THREE.Vector3(k, k, 0),
-            new THREE.Vector3(k-k/6, 0, k),
+            new THREE.Vector3(k - k / 6, 0, k),
             new THREE.Vector3(k, 0, 0),
             new THREE.Vector3(k, k, k),
-            new THREE.Vector3(k/6, 0, k),
+            new THREE.Vector3(k / 6, 0, k),
             new THREE.Vector3(0, 0, 0),
             new THREE.Vector3(0, k, 0),
             new THREE.Vector3(0, k, k),
             // bottom
-            new THREE.Vector3(k - k/4,  -k/ 4, k-k / 4),
-            new THREE.Vector3(k/4, - k / 4, k-k / 4),
+            new THREE.Vector3(k - k / 4, -k / 4, k - k / 4),
+            new THREE.Vector3(k / 4, -k / 4, k - k / 4),
             // nose
-            new THREE.Vector3(k/5, k- k / 5, k+k / 5),
-            new THREE.Vector3(k-k/5, k- k / 5, k+k / 5),
-            new THREE.Vector3(k/5, k /3, k+k / 7),
-            new THREE.Vector3(k-k/5, k / 3, k+k / 7)
+            new THREE.Vector3(k / 5, k - k / 5, k + k / 5),
+            new THREE.Vector3(k - k / 5, k - k / 5, k + k / 5),
+            new THREE.Vector3(k / 5, k / 3, k + k / 7),
+            new THREE.Vector3(k - k / 5, k / 3, k + k / 7)
         ];
 
     this.face = new THREE.Mesh(new THREE.ConvexGeometry(points), this.blueMat);
@@ -387,12 +387,15 @@ Elephant = function () {
 };
 
 Elephant.prototype.updateHead = function (speed) {
-
     this.head.rotation.y += (this.tHeagRotY - this.head.rotation.y) / speed;
-    this.head.rotation.x += (this.tHeadRotX - this.head.rotation.x) / speed;
     this.head.position.x += (this.tHeadPosX - this.head.position.x) / speed;
+    if (this.head.position.y < 75) {
+        this.head.rotation.x += (this.tHeadRotX - this.head.rotation.x) / speed;
+    }
     this.head.position.y += (this.tHeadPosY - this.head.position.y) / speed;
     this.head.position.z += (this.tHeadPosZ - this.head.position.z) / speed;
+
+    console.log(this.head.position);
 
     this.leftEye.scale.y += (this.tEyeScale - this.leftEye.scale.y) / (speed * 2);
     this.rightEye.scale.y = this.leftEye.scale.y;
@@ -409,11 +412,20 @@ Elephant.prototype.updateHead = function (speed) {
     this.rightIris.position.z += (this.tRightIrisPosZ - this.rightIris.position.z) / speed;
 };
 
+Elephant.prototype.updateBody = function (speed) {
+    this.body.rotation.z += (this.tBodyPosY - this.body.position.z - 10) / speed;
+    this.body.position.z += (this.tBodyPosY - this.body.position.z - 10) / speed;
+};
+
 Elephant.prototype.look = function (xTarget, yTarget) {
+    this.frontLeftFoot.position.y = -90;
+    this.frontRightFoot.position.y = -90;
+
     this.tHeagRotY = rule3(xTarget, -200, 200, -Math.PI / 4, Math.PI / 4);
     this.tHeadRotX = rule3(yTarget, -200, 200, -Math.PI / 4, Math.PI / 4);
     this.tHeadPosX = rule3(xTarget, -200, 200, 70, -70);
     this.tHeadPosY = rule3(yTarget, -140, 260, 20, 100);
+    this.tBodyPosY = rule3(-xTarget, 1, 5, -0.05, 0.05);
     this.tHeadPosZ = 0;
 
 
@@ -425,11 +437,8 @@ Elephant.prototype.look = function (xTarget, yTarget) {
     this.tRightIrisPosZ = rule3(xTarget, -200, 200, 110, 130);
 
     this.updateHead(10);
-
-    for (var i = 0; i < this.tusks.length; i++) {
-        var m = this.tusks[i];
-        m.rotation.y = 0;
-    }
+    this.updateBody(5);
+    this.body.rotation.x = 0;
 };
 
 Elephant.prototype.dry = function (xTarget, yTarget) {
@@ -437,7 +446,8 @@ Elephant.prototype.dry = function (xTarget, yTarget) {
     this.tHeadRotX = rule3(yTarget, -200, 200, Math.PI / 4, -Math.PI / 4);
     this.tHeadPosX = rule3(xTarget, -200, 200, -70, 70);
     this.tHeadPosY = rule3(yTarget, -140, 260, 100, 20);
-    this.tHeadPosZ = 100;
+    this.tBodyPosY = rule3(-xTarget, 1, 5, -0.05, 0.05);
+    this.tHeadPosZ = -20;
 
     this.tEyeScale = 0.1;
     this.tIrisYScale = 0.1;
@@ -448,21 +458,18 @@ Elephant.prototype.dry = function (xTarget, yTarget) {
     this.tRightIrisPosZ = 120;
 
     this.updateHead(10);
-
+    this.updateBody(20);
+    this.body.rotation.x = -Math.PI / 20;
 
     var dt = 20000 / (xTarget * xTarget + yTarget * yTarget);
     dt = Math.max(Math.min(dt, 1), .5);
     this.windTime += dt;
 
+    this.frontLeftFoot.position.y = -90 + 25 + 25 * Math.cos(this.windTime / 5) * Math.PI / 4;
+    this.frontRightFoot.position.y = -90 + 25 - 25 * Math.cos(this.windTime / 5) * Math.PI / 4;
+
     this.leftEar.rotation.x = Math.cos(this.windTime) * Math.PI / 16 * dt;
     this.rightEar.rotation.x = -Math.cos(this.windTime) * Math.PI / 16 * dt;
-
-
-    for (i = 0; i < this.tusks.length; i++) {
-        var m = this.tusks[i];
-        var amp = (i < 3) ? -Math.PI / 8 : Math.PI / 8;
-        m.rotation.y = amp + Math.cos(this.windTime + i) * dt * amp;
-    }
 };
 
 function loop() {
@@ -501,5 +508,4 @@ function rule3(v, vmin, vmax, tmin, tmax) {
     var pc = (nv - vmin) / dv;
     var dt = tmax - tmin;
     return tmin + (pc * dt);
-
 }
