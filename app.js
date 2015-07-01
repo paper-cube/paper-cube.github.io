@@ -241,25 +241,16 @@ Elephant = function () {
         shading: THREE.FlatShading
     });
 
-    this.blackMat = new THREE.MeshLambertMaterial({
-        color: 0x302925,
-        shading: THREE.FlatShading
-    });
-
-
     var bodyGeom = new THREE.CylinderGeometry(60, 90, 140, 16);
     var faceGeom = new THREE.BoxGeometry(80, 120, 80);
     var tuskGeom = new THREE.CylinderGeometry(5, 10, 70, 10);
-    tuskGeom.applyMatrix(new THREE.Matrix4().makeRotationX(-60));
+    tuskGeom.applyMatrix(new THREE.Matrix4().makeRotationX(-4));
     var earGeom = new THREE.BoxGeometry(120, 120, 20);
     earGeom.applyMatrix(new THREE.Matrix4().makeRotationY(10));
     var noseGeom = new THREE.CylinderGeometry(25, 10, 120, 50);
-    noseGeom.applyMatrix(new THREE.Matrix4().makeRotationX(-6.9));
+    noseGeom.applyMatrix(new THREE.Matrix4().makeRotationX(-6.6));
     var eyeGeom = new THREE.BoxGeometry(5, 20, 20);
     var irisGeom = new THREE.BoxGeometry(4, 10, 10);
-    var mouthGeom = new THREE.BoxGeometry(20, 20, 10);
-    var smileGeom = new THREE.TorusGeometry(12, 4, 2, 10, Math.PI);
-    var lipsGeom = new THREE.BoxGeometry(40, 15, 20);
     var footGeom = new THREE.BoxGeometry(40, 35, 20);
 
     // body
@@ -289,39 +280,65 @@ Elephant = function () {
     this.frontLeftFoot.position.y = -90;
 
     // face
-    this.face = new THREE.Mesh(faceGeom, this.blueMat);
-    this.face.position.z = 135;
+    var k = 90,
+        points = [
+            // up
+            new THREE.Vector3(k/4, k + k / 4, k / 4),
+            new THREE.Vector3(k - k/4, k + k / 4, k / 4),
+            new THREE.Vector3(k - k/4, k + k / 4, k-k / 4),
+            new THREE.Vector3(k/4, k + k / 4, k-k / 4),
+            //cube
+            new THREE.Vector3(k, k, 0),
+            new THREE.Vector3(k-k/6, 0, k),
+            new THREE.Vector3(k, 0, 0),
+            new THREE.Vector3(k, k, k),
+            new THREE.Vector3(k/6, 0, k),
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(0, k, 0),
+            new THREE.Vector3(0, k, k),
+            // bottom
+            new THREE.Vector3(k - k/4,  -k/ 4, k-k / 4),
+            new THREE.Vector3(k/4, - k / 4, k-k / 4),
+            // nose
+            new THREE.Vector3(k/5, k- k / 5, k+k / 5),
+            new THREE.Vector3(k-k/5, k- k / 5, k+k / 5),
+            new THREE.Vector3(k/5, k /3, k+k / 7),
+            new THREE.Vector3(k-k/5, k / 3, k+k / 7)
+        ];
+
+    this.face = new THREE.Mesh(new THREE.ConvexGeometry(points), this.blueMat);
+    this.face.position.x = -k / 2;
+    this.face.position.y = -k / 2;
+    this.face.position.z = k * 2 / 3;
 
     // tusks
-
     this.tusks = [];
     this.tusk1 = new THREE.Mesh(tuskGeom, this.greyMat);
-    this.tusk1.position.x = 30;
-    this.tusk1.position.y = -45;
-    this.tusk1.position.z = 175;
-
+    this.tusk1.position.x = 25;
+    this.tusk1.position.y = -25;
+    this.tusk1.position.z = 165;
     this.tusk4 = this.tusk1.clone();
-    this.tusk4.position.x = -30;
+    this.tusk4.position.x = -25;
 
     // eyes
     this.leftEye = new THREE.Mesh(eyeGeom, this.whiteMat);
-    this.leftEye.position.x = 40;
+    this.leftEye.position.x = 45;
     this.leftEye.position.z = 120;
     this.leftEye.position.y = 25;
 
     this.rightEye = new THREE.Mesh(eyeGeom, this.whiteMat);
-    this.rightEye.position.x = -40;
+    this.rightEye.position.x = -45;
     this.rightEye.position.z = 120;
     this.rightEye.position.y = 25;
 
     // iris
     this.leftIris = new THREE.Mesh(irisGeom, this.purpleMat);
-    this.leftIris.position.x = 42;
+    this.leftIris.position.x = 47;
     this.leftIris.position.z = 120;
     this.leftIris.position.y = 25;
 
     this.rightIris = new THREE.Mesh(irisGeom, this.purpleMat);
-    this.rightIris.position.x = -42;
+    this.rightIris.position.x = -47;
     this.rightIris.position.z = 120;
     this.rightIris.position.y = 25;
 
@@ -339,7 +356,7 @@ Elephant = function () {
 
     // nose
     this.nose = new THREE.Mesh(noseGeom, this.blueMat);
-    this.nose.position.z = 190;
+    this.nose.position.z = 160;
     this.nose.position.y = -35;
 
     // head
