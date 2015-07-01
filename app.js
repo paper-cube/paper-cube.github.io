@@ -1,8 +1,7 @@
 // MESSY CODE, WILL BE CLEANED UP SOON!
 
 
-
-//THREEJS RELATED VARIABLES 
+//THREEJS RELATED VARIABLES
 
 var scene,
     camera,
@@ -28,14 +27,14 @@ var HEIGHT,
     WIDTH,
     windowHalfX,
     windowHalfY,
-    mousePos = {x:0,y:0};
+    mousePos = {x: 0, y: 0};
 dist = 0;
 angleZ = 0;
 angleY = 0;
 
 //INIT THREE JS, SCREEN AND MOUSE EVENTS
 
-function init(){
+function init() {
     scene = new THREE.Scene();
     HEIGHT = window.innerHeight;
     WIDTH = window.innerWidth;
@@ -50,8 +49,8 @@ function init(){
         farPlane);
     camera.position.z = 800;
     camera.position.y = 0;
-    camera.lookAt(new THREE.Vector3(0,0,0));
-    renderer = new THREE.WebGLRenderer({alpha: true, antialias: true });
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
+    renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
     renderer.setSize(WIDTH, HEIGHT);
     renderer.shadowMapEnabled = true;
     container = document.getElementById('world');
@@ -64,7 +63,7 @@ function init(){
     document.addEventListener('mouseup', handleMouseUp, false);
     document.addEventListener('touchstart', handleTouchStart, false);
     document.addEventListener('touchend', handleTouchEnd, false);
-    document.addEventListener('touchmove',handleTouchMove, false);
+    document.addEventListener('touchmove', handleTouchMove, false);
     /*
      controls = new THREE.OrbitControls( camera, renderer.domElement);
      //*/
@@ -81,7 +80,7 @@ function onWindowResize() {
 }
 
 function handleMouseMove(event) {
-    mousePos = {x:event.clientX, y:event.clientY};
+    mousePos = {x: event.clientX, y: event.clientY};
 }
 
 function handleMouseDown(event) {
@@ -94,20 +93,20 @@ function handleMouseUp(event) {
 function handleTouchStart(event) {
     if (event.touches.length > 1) {
         event.preventDefault();
-        mousePos = {x:event.touches[0].pageX, y:event.touches[0].pageY};
+        mousePos = {x: event.touches[0].pageX, y: event.touches[0].pageY};
         isBlowing = true;
     }
 }
 
 function handleTouchEnd(event) {
-    mousePos = {x:windowHalfX, y:windowHalfY};
+    mousePos = {x: windowHalfX, y: windowHalfY};
     isBlowing = false;
 }
 
 function handleTouchMove(event) {
     if (event.touches.length == 1) {
         event.preventDefault();
-        mousePos = {x:event.touches[0].pageX, y:event.touches[0].pageY};
+        mousePos = {x: event.touches[0].pageX, y: event.touches[0].pageY};
     }
 }
 
@@ -129,17 +128,17 @@ function createLights() {
     scene.add(shadowLight);
 }
 
-function createFloor(){
-    floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(1000,500), new THREE.MeshBasicMaterial({color: 0xebe5e7}));
-    floor.rotation.x = -Math.PI/2;
+function createFloor() {
+    floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(1000, 500), new THREE.MeshBasicMaterial({color: 0xebe5e7}));
+    floor.rotation.x = -Math.PI / 2;
     floor.position.y = -100;
     floor.receiveShadow = true;
     scene.add(floor);
 }
 
-Sphere = function(){
+Sphere = function () {
     var mat = new THREE.MeshBasicMaterial({
-        wireframe:true
+        wireframe: true
     });
     var sphGeom = new THREE.SphereGeometry(200, 20, 20);
     var mesh = new THREE.Mesh(sphGeom, mat);
@@ -147,56 +146,56 @@ Sphere = function(){
     this.threegroup.add(mesh);
 }
 
-function createLion(){
+function createLion() {
     lion = new Lion();
     scene.add(lion.threegroup);
 }
 
-function createSphere(){
+function createSphere() {
     sphere = new Sphere();
     sphere.threegroup.position.y = 60;
     scene.add(sphere.threegroup);
 }
 
-function createFan(){
+function createFan() {
     fan = new Fan();
     fan.threegroup.position.z = 350;
     scene.add(fan.threegroup);
 }
 
-Fan = function(){
+Fan = function () {
     this.isBlowing = false;
     this.speed = 0;
-    this.acc =0;
-    this.redMat = new THREE.MeshLambertMaterial ({
+    this.acc = 0;
+    this.redMat = new THREE.MeshLambertMaterial({
         color: 0xE17338,
-        shading:THREE.FlatShading
+        shading: THREE.FlatShading
     });
-    this.greenMat = new THREE.MeshLambertMaterial ({
+    this.greenMat = new THREE.MeshLambertMaterial({
         color: 0xA5C85A,
-        shading:THREE.FlatShading
+        shading: THREE.FlatShading
     });
 
-    this.blueMat = new THREE.MeshLambertMaterial ({
+    this.blueMat = new THREE.MeshLambertMaterial({
         color: 0x4084BB,
-        shading:THREE.FlatShading
+        shading: THREE.FlatShading
     });
 
-    this.greyMat = new THREE.MeshLambertMaterial ({
-        color: 0x653f4c,
-        shading:THREE.FlatShading
+    this.greyMat = new THREE.MeshLambertMaterial({
+        color: 0x777777,
+        shading: THREE.FlatShading
     });
 
-    var coreGeom = new THREE.BoxGeometry(10,10,20);
+    var coreGeom = new THREE.BoxGeometry(10, 10, 20);
     var sphereGeom = new THREE.BoxGeometry(10, 10, 3);
-    var propGeom = new THREE.BoxGeometry(10,30,2);
-    propGeom.applyMatrix( new THREE.Matrix4().makeTranslation( 0,25,0) );
+    var propGeom = new THREE.BoxGeometry(15, 45, 2);
+    propGeom.applyMatrix(new THREE.Matrix4().makeTranslation(0, 45, 20));
 
-    this.core = new THREE.Mesh(coreGeom,this.greyMat);
+    this.core = new THREE.Mesh(coreGeom, this.greyMat);
     var prop1 = new THREE.Mesh(propGeom, this.greenMat);
     prop1.position.z = 0;
     var prop2 = new THREE.Mesh(propGeom, this.redMat);
-    prop2.rotation.z = Math.PI/3;
+    prop2.rotation.z = Math.PI / 3;
     var prop3 = new THREE.Mesh(propGeom, this.blueMat);
     prop3.rotation.z = Math.PI;
 
@@ -208,174 +207,111 @@ Fan = function(){
     this.propeller.add(prop2);
     this.propeller.add(prop3);
 
+
     this.threegroup = new THREE.Group();
     this.threegroup.add(this.core);
     this.threegroup.add(this.propeller);
     this.threegroup.add(this.sphere);
-}
+};
 
-Fan.prototype.update = function(xTarget, yTarget){
-    this.threegroup.lookAt(new THREE.Vector3(0,80,60));
+Fan.prototype.update = function (xTarget, yTarget) {
+    this.threegroup.lookAt(new THREE.Vector3(0, 80, 60));
 
     this.tPosX = rule3(xTarget, -200, 200, -250, 250);
     this.tPosY = rule3(yTarget, -200, 200, 250, -250);
 
-    this.threegroup.position.x += (this.tPosX - this.threegroup.position.x) /10;
-    this.threegroup.position.y += (this.tPosY - this.threegroup.position.y) /10;
+    this.threegroup.position.x += (this.tPosX - this.threegroup.position.x) / 10;
+    this.threegroup.position.y += (this.tPosY - this.threegroup.position.y) / 10;
 
-    this.targetSpeed = (this.isBlowing) ? .3 : .01;
-    if (this.isBlowing && this.speed < .5){
-        this.acc +=.001;
+    if (this.isBlowing && this.speed < .5) {
+        this.acc += .001;
         this.speed += this.acc;
-    }else if (!this.isBlowing){
+    } else if (!this.isBlowing) {
         this.speed *= .98;
     }
 
     this.propeller.rotation.z += this.speed;
 }
 
-Lion = function(){
-    this.isDrying = false;
+Lion = function () {
     this.windTime = 0;
     this.bodyInitPositions = [];
-    this.maneParts = [];
     this.threegroup = new THREE.Group();
-    this.yellowMat = new THREE.MeshLambertMaterial ({
+    this.yellowMat = new THREE.MeshLambertMaterial({
         color: 0x9399E3,
-        shading:THREE.FlatShading
+        shading: THREE.FlatShading
     });
-    this.redMat = new THREE.MeshLambertMaterial ({
+    this.redMat = new THREE.MeshLambertMaterial({
         color: 0x9399E3,
-        shading:THREE.FlatShading
+        shading: THREE.FlatShading
     });
 
-    this.pinkMat = new THREE.MeshLambertMaterial ({
+    this.pinkMat = new THREE.MeshLambertMaterial({
         color: 0xe55d2b,
-        shading:THREE.FlatShading
+        shading: THREE.FlatShading
     });
 
-    this.whiteMat = new THREE.MeshLambertMaterial ({
+    this.whiteMat = new THREE.MeshLambertMaterial({
         color: 0xffffff,
-        shading:THREE.FlatShading
+        shading: THREE.FlatShading
     });
 
-    this.purpleMat = new THREE.MeshLambertMaterial ({
+    this.purpleMat = new THREE.MeshLambertMaterial({
         color: 0x451954,
-        shading:THREE.FlatShading
+        shading: THREE.FlatShading
     });
 
-    this.greyMat = new THREE.MeshLambertMaterial ({
+    this.greyMat = new THREE.MeshLambertMaterial({
         color: 0xffffff,
-        shading:THREE.FlatShading
+        shading: THREE.FlatShading
     });
 
-    this.blackMat = new THREE.MeshLambertMaterial ({
+    this.blackMat = new THREE.MeshLambertMaterial({
         color: 0x302925,
-        shading:THREE.FlatShading
+        shading: THREE.FlatShading
     });
 
 
-    var bodyGeom = new THREE.CylinderGeometry(60,100, 140, 4);
-    var faceGeom = new THREE.BoxGeometry(80,120,80);
-    var mustacheGeom = new THREE.BoxGeometry(10,95,1);
-    mustacheGeom.applyMatrix( new THREE.Matrix4().makeRotationX(-60));
-    var earGeom = new THREE.BoxGeometry(120,120,20);
-    earGeom.applyMatrix( new THREE.Matrix4().makeRotationY(10));
-    var noseGeom = new THREE.BoxGeometry(40,40,180);
-    noseGeom.applyMatrix( new THREE.Matrix4().makeRotationX(-100));
-    var eyeGeom = new THREE.BoxGeometry(5,20,20);
-    var irisGeom = new THREE.BoxGeometry(4,10,10);
-    var mouthGeom = new THREE.BoxGeometry(20,20,10);
-    var smileGeom = new THREE.TorusGeometry( 12, 4, 2, 10, Math.PI );
-    var lipsGeom = new THREE.BoxGeometry(40,15,20);
-    var kneeGeom = new THREE.BoxGeometry(25, 80, 80);
-    kneeGeom.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 50, 0 ) );
-    var footGeom = new THREE.BoxGeometry(40, 20, 20);
+    var bodyGeom = new THREE.CylinderGeometry(60, 90, 140, 16);
+    var faceGeom = new THREE.BoxGeometry(80, 120, 80);
+    var mustacheGeom = new THREE.CylinderGeometry(5, 10, 70, 10);
+    mustacheGeom.applyMatrix(new THREE.Matrix4().makeRotationX(-60));
+    var earGeom = new THREE.BoxGeometry(120, 120, 20);
+    earGeom.applyMatrix(new THREE.Matrix4().makeRotationY(10));
+    var noseGeom = new THREE.CylinderGeometry(30, 15, 120, 50);
+    noseGeom.applyMatrix(new THREE.Matrix4().makeRotationX(-6.9));
+    var eyeGeom = new THREE.BoxGeometry(5, 20, 20);
+    var irisGeom = new THREE.BoxGeometry(4, 10, 10);
+    var mouthGeom = new THREE.BoxGeometry(20, 20, 10);
+    var smileGeom = new THREE.TorusGeometry(12, 4, 2, 10, Math.PI);
+    var lipsGeom = new THREE.BoxGeometry(40, 15, 20);
+    var footGeom = new THREE.BoxGeometry(40, 35, 20);
 
     // body
     this.body = new THREE.Mesh(bodyGeom, this.yellowMat);
-    this.body.position.z = -60;
-    this.body.position.y = -30;
-    this.bodyVertices = [0,1,2,3,4,10];
-
-    for (var i=0;i<this.bodyVertices.length; i++){
-        var tv = this.body.geometry.vertices[this.bodyVertices[i]];
-        tv.z =10;
-        //tv.x = 0;
-        this.bodyInitPositions.push({x:tv.x, y:tv.y, z:tv.z});
-    }
-
-    // knee
-    this.leftKnee = new THREE.Mesh(kneeGeom, this.yellowMat);
-    //this.leftKnee.position.x = 65;
-    //this.leftKnee.position.z = -20;
-    //this.leftKnee.position.y = -110;
-    //this.leftKnee.rotation.z = -.3;
-
-    this.rightKnee = new THREE.Mesh(kneeGeom, this.yellowMat);
-    //this.rightKnee.position.x = -65;
-    //this.rightKnee.position.z = -20;
-    //this.rightKnee.position.y = -110;
-    //this.rightKnee.rotation.z = .3;
+    this.body.position.z = -40;
+    this.body.position.y = -2;
 
     // feet
     this.backLeftFoot = new THREE.Mesh(footGeom, this.yellowMat);
-    this.backLeftFoot.position.z = 20;
+    this.backLeftFoot.position.z = -40;
     this.backLeftFoot.position.x = 65;
     this.backLeftFoot.position.y = -85;
 
     this.backRightFoot = new THREE.Mesh(footGeom, this.yellowMat);
-    this.backRightFoot.position.z = 20;
+    this.backRightFoot.position.z = -40;
     this.backRightFoot.position.x = -65;
     this.backRightFoot.position.y = -85;
 
     this.frontRightFoot = new THREE.Mesh(footGeom, this.yellowMat);
-    this.frontRightFoot.position.z = 40;
+    this.frontRightFoot.position.z = 20;
     this.frontRightFoot.position.x = -32;
     this.frontRightFoot.position.y = -90;
 
     this.frontLeftFoot = new THREE.Mesh(footGeom, this.yellowMat);
-    this.frontLeftFoot.position.z = 40;
+    this.frontLeftFoot.position.z = 20;
     this.frontLeftFoot.position.x = 32;
     this.frontLeftFoot.position.y = -90;
-
-    // mane
-
-    //this.mane = new THREE.Group();
-
-    //for (var j=0; j<4; j++){
-    //    for (var k=0; k<4; k++){
-    //        var manePart = new THREE.Mesh(maneGeom, this.redMat);
-    //        manePart.position.x = (j*40)-60;
-    //        manePart.position.y = (k*40)-60;
-    //
-    //        var amp;
-    //        var zOffset;
-    //        var periodOffset = Math.random()*Math.PI*2;
-    //        var angleOffsetY, angleOffsetX;
-    //        var angleAmpY, angleAmpX;
-    //        var xInit, yInit;
-    //
-    //
-    //        if ((j==0 && k==0) || (j==0 && k==3) || (j==3 && k==0) || (j==3 && k==3)){
-    //            amp = -10-Math.floor(Math.random()*5);
-    //            zOffset = -5;
-    //        }else if (j==0 || k ==0 || j==3 || k==3){
-    //            amp = -5-Math.floor(Math.random()*5);
-    //            zOffset = 0;
-    //        }else{
-    //            amp = 0;
-    //            zOffset = 0;
-    //        }
-    //
-    //        this.maneParts.push({mesh:manePart, amp:amp, zOffset:zOffset, periodOffset:periodOffset, xInit:manePart.position.x, yInit:manePart.position.y});
-    //        this.mane.add(manePart);
-    //    }
-    //}
-    //
-    //this.mane.position.y = -10;
-    //this.mane.position.z = 80;
-    //this.mane.rotation.z = Math.PI/4;
 
     // face
     this.face = new THREE.Mesh(faceGeom, this.yellowMat);
@@ -386,38 +322,11 @@ Lion = function(){
     this.mustaches = [];
     this.mustache1 = new THREE.Mesh(mustacheGeom, this.greyMat);
     this.mustache1.position.x = 30;
-    this.mustache1.position.y = -5;
+    this.mustache1.position.y = -45;
     this.mustache1.position.z = 175;
 
     this.mustache4 = this.mustache1.clone();
     this.mustache4.position.x = -30;
-
-
-    // spots
-    //this.spot1 = new THREE.Mesh(spotGeom, this.redMat);
-    //this.spot1.position.x = 39;
-    //this.spot1.position.z = 150;
-    //
-    //this.spot2 = this.spot1.clone();
-    //this.spot2.position.z = 160;
-    //this.spot2.position.y = -10;
-    //
-    //this.spot3 = this.spot1.clone();
-    //this.spot3.position.z = 140;
-    //this.spot3.position.y = -15;
-    //
-    //this.spot4 = this.spot1.clone();
-    //this.spot4.position.z = 150;
-    //this.spot4.position.y = -20;
-    //
-    //this.spot5 = this.spot1.clone();
-    //this.spot5.position.x = -39;
-    //this.spot6 = this.spot2.clone();
-    //this.spot6.position.x = -39;
-    //this.spot7 = this.spot3.clone();
-    //this.spot7.position.x = -39;
-    //this.spot8 = this.spot4.clone();
-    //this.spot8.position.x = -39;
 
     // eyes
     this.leftEye = new THREE.Mesh(eyeGeom, this.whiteMat);
@@ -445,7 +354,7 @@ Lion = function(){
     this.mouth = new THREE.Mesh(mouthGeom, this.blackMat);
     this.mouth.position.z = 171;
     this.mouth.position.y = -30;
-    this.mouth.scale.set(.5,.5,1);
+    this.mouth.scale.set(.5, .5, 1);
 
     // smile
     this.smile = new THREE.Mesh(smileGeom, this.greyMat);
@@ -466,7 +375,7 @@ Lion = function(){
     this.rightEar.position.z = 105;
 
     this.leftEar = new THREE.Mesh(earGeom, this.yellowMat);
-    this.leftEar.applyMatrix( new THREE.Matrix4().makeRotationY(-20));
+    this.leftEar.applyMatrix(new THREE.Matrix4().makeRotationY(-20));
     this.leftEar.position.x = 80;
     this.leftEar.position.y = 50;
     this.leftEar.position.z = 105;
@@ -474,7 +383,7 @@ Lion = function(){
     // nose
     this.nose = new THREE.Mesh(noseGeom, this.yellowMat);
     this.nose.position.z = 190;
-    this.nose.position.y = -10;
+    this.nose.position.y = -35;
 
     // head
     this.head = new THREE.Group();
@@ -497,45 +406,40 @@ Lion = function(){
 
     this.threegroup.add(this.body);
     this.threegroup.add(this.head);
-    this.threegroup.add(this.leftKnee);
-    this.threegroup.add(this.rightKnee);
     this.threegroup.add(this.backLeftFoot);
     this.threegroup.add(this.backRightFoot);
     this.threegroup.add(this.frontRightFoot);
     this.threegroup.add(this.frontLeftFoot);
 
-    this.threegroup.traverse( function ( object ) {
-        if ( object instanceof THREE.Mesh ) {
+    this.threegroup.traverse(function (object) {
+        if (object instanceof THREE.Mesh) {
             object.castShadow = true;
             object.receiveShadow = true;
         }
-    } );
-}
+    });
+};
 
-Lion.prototype.updateHead = function(speed){
+Lion.prototype.updateHead = function (speed) {
 
     this.head.rotation.y += (this.tHeagRotY - this.head.rotation.y) / speed;
     this.head.rotation.x += (this.tHeadRotX - this.head.rotation.x) / speed;
-    this.head.position.x += (this.tHeadPosX-this.head.position.x) / speed;
-    this.head.position.y += (this.tHeadPosY-this.head.position.y) / speed;
-    this.head.position.z += (this.tHeadPosZ-this.head.position.z) / speed;
+    this.head.position.x += (this.tHeadPosX - this.head.position.x) / speed;
+    this.head.position.y += (this.tHeadPosY - this.head.position.y) / speed;
+    this.head.position.z += (this.tHeadPosZ - this.head.position.z) / speed;
 
-    this.leftEye.scale.y += (this.tEyeScale - this.leftEye.scale.y) / (speed*2);
+    this.leftEye.scale.y += (this.tEyeScale - this.leftEye.scale.y) / (speed * 2);
     this.rightEye.scale.y = this.leftEye.scale.y;
 
-    this.leftIris.scale.y += (this.tIrisYScale - this.leftIris.scale.y) / (speed*2);
+    this.leftIris.scale.y += (this.tIrisYScale - this.leftIris.scale.y) / (speed * 2);
     this.rightIris.scale.y = this.leftIris.scale.y;
 
-    this.leftIris.scale.z += (this.tIrisZScale - this.leftIris.scale.z) / (speed*2);
+    this.leftIris.scale.z += (this.tIrisZScale - this.leftIris.scale.z) / (speed * 2);
     this.rightIris.scale.z = this.leftIris.scale.z;
 
     this.leftIris.position.y += (this.tIrisPosY - this.leftIris.position.y) / speed;
     this.rightIris.position.y = this.leftIris.position.y;
     this.leftIris.position.z += (this.tLeftIrisPosZ - this.leftIris.position.z) / speed;
     this.rightIris.position.z += (this.tRightIrisPosZ - this.rightIris.position.z) / speed;
-
-    this.rightKnee.rotation.z += (this.tRightKneeRotZ - this.rightKnee.rotation.z) / speed;
-    this.leftKnee.rotation.z += (this.tLeftKneeRotZ - this.leftKnee.rotation.z) / speed;
 
     this.lips.position.x += (this.tLipsPosX - this.lips.position.x) / speed;
     this.lips.position.y += (this.tLipsPosY - this.lips.position.y) / speed;
@@ -544,12 +448,12 @@ Lion.prototype.updateHead = function(speed){
     this.smile.position.z += (this.tSmilePosZ - this.smile.position.z) / speed;
     this.smile.position.y += (this.tSmilePosY - this.smile.position.y) / speed;
     this.smile.rotation.z += (this.tSmileRotZ - this.smile.rotation.z) / speed;
-}
+};
 
-Lion.prototype.look = function(xTarget, yTarget){
-    this.tHeagRotY = rule3(xTarget, -200, 200, -Math.PI/4, Math.PI/4);
-    this.tHeadRotX = rule3(yTarget, -200,200, -Math.PI/4, Math.PI/4);
-    this.tHeadPosX = rule3(xTarget, -200, 200, 70,-70);
+Lion.prototype.look = function (xTarget, yTarget) {
+    this.tHeagRotY = rule3(xTarget, -200, 200, -Math.PI / 4, Math.PI / 4);
+    this.tHeadRotX = rule3(yTarget, -200, 200, -Math.PI / 4, Math.PI / 4);
+    this.tHeadPosX = rule3(xTarget, -200, 200, 70, -70);
     this.tHeadPosY = rule3(yTarget, -140, 260, 20, 100);
     this.tHeadPosZ = 0;
 
@@ -557,7 +461,7 @@ Lion.prototype.look = function(xTarget, yTarget){
     this.tEyeScale = 1;
     this.tIrisYScale = 1;
     this.tIrisZScale = 1;
-    this.tIrisPosY = rule3(yTarget, -200,200, 35,15);
+    this.tIrisPosY = rule3(yTarget, -200, 200, 35, 15);
     this.tLeftIrisPosZ = rule3(xTarget, -200, 200, 130, 110);
     this.tRightIrisPosZ = rule3(xTarget, -200, 200, 110, 130);
 
@@ -570,41 +474,18 @@ Lion.prototype.look = function(xTarget, yTarget){
     this.tSmilePosY = -15;
     this.tSmileRotZ = -Math.PI;
 
-    this.tRightKneeRotZ = rule3(xTarget, -200, 200, .3-Math.PI/8, .3+Math.PI/8);
-    this.tLeftKneeRotZ = rule3(xTarget, -200, 200, -.3-Math.PI/8, -.3+Math.PI/8)
-
-
     this.updateHead(10);
 
-    //this.mane.rotation.y = 0;
-    //this.mane.rotation.x = 0;
-    //
-    //for (var i=0; i<this.maneParts.length; i++){
-    //    var m = this.maneParts[i].mesh;
-    //    m.position.z = 0;
-    //    m.rotation.y = 0;
-    //}
-
-    for (var i=0; i<this.mustaches.length; i++){
+    for (var i = 0; i < this.mustaches.length; i++) {
         var m = this.mustaches[i];
         m.rotation.y = 0;
     }
-
-
-    for (var i=0; i<this.bodyVertices.length; i++){
-        var tvInit = this.bodyInitPositions[i];
-        var tv = this.body.geometry.vertices[this.bodyVertices[i]];
-        tv.x = tvInit.x + this.head.position.x;
-        //tv.y = this.head.position.y;
-        //tv.z = 70;
-    }
-    this.body.geometry.verticesNeedUpdate = true;
 }
 
-Lion.prototype.dry = function(xTarget, yTarget){
-    this.tHeagRotY = rule3(xTarget, -200, 200, Math.PI/4, -Math.PI/4);
-    this.tHeadRotX = rule3(yTarget, -200,200, Math.PI/4, -Math.PI/4);
-    this.tHeadPosX = rule3(xTarget, -200, 200, -70,70);
+Lion.prototype.dry = function (xTarget, yTarget) {
+    this.tHeagRotY = rule3(xTarget, -200, 200, Math.PI / 4, -Math.PI / 4);
+    this.tHeadRotX = rule3(yTarget, -200, 200, Math.PI / 4, -Math.PI / 4);
+    this.tHeadPosX = rule3(xTarget, -200, 200, -70, 70);
     this.tHeadPosY = rule3(yTarget, -140, 260, 100, 20);
     this.tHeadPosZ = 100;
 
@@ -616,75 +497,50 @@ Lion.prototype.dry = function(xTarget, yTarget){
     this.tLeftIrisPosZ = 120;
     this.tRightIrisPosZ = 120;
 
-    this.tLipsPosX = rule3(xTarget, -200, 200, -15,15);
-    this.tLipsPosY = rule3(yTarget, -200, 200, -45,-40);
+    this.tLipsPosX = rule3(xTarget, -200, 200, -15, 15);
+    this.tLipsPosY = rule3(yTarget, -200, 200, -45, -40);
 
     this.tMouthPosZ = 168;
-    this.tSmilePosX = rule3(xTarget, -200, 200, -15,15);
-    this.tSmilePosY = rule3(yTarget, -200, 200, -20,-8);
+    this.tSmilePosX = rule3(xTarget, -200, 200, -15, 15);
+    this.tSmilePosY = rule3(yTarget, -200, 200, -20, -8);
     this.tSmilePosZ = 176;
-    this.tSmileRotZ = rule3(xTarget, -200, 200, -Math.PI-.3, -Math.PI+.3);
-
-    this.tRightKneeRotZ = rule3(xTarget, -200, 200, .3+Math.PI/8, .3-Math.PI/8);
-    this.tLeftKneeRotZ = rule3(xTarget, -200, 200, -.3+Math.PI/8, -.3-Math.PI/8);
+    this.tSmileRotZ = rule3(xTarget, -200, 200, -Math.PI - .3, -Math.PI + .3);
 
     this.updateHead(10);
 
-    //this.mane.rotation.y = -.8*this.head.rotation.y;
-    //this.mane.rotation.x = -.8*this.head.rotation.x;
 
-
-
-    var dt = 20000 / (xTarget*xTarget+yTarget*yTarget);
-    dt = Math.max(Math.min(dt,1), .5);
+    var dt = 20000 / (xTarget * xTarget + yTarget * yTarget);
+    dt = Math.max(Math.min(dt, 1), .5);
     this.windTime += dt;
 
-    //for (var i=0; i<this.maneParts.length; i++){
-    //    var m = this.maneParts[i].mesh;
-    //    var amp = this.maneParts[i].amp;
-    //    var zOffset = this.maneParts[i].zOffset;
-    //    var periodOffset = this.maneParts[i].periodOffset;
-    //
-    //    m.position.z = zOffset + Math.cos(this.windTime+periodOffset)*amp*dt*2;
-    //}
-
-    this.leftEar.rotation.x = Math.cos(this.windTime)*Math.PI/16*dt;
-    this.rightEar.rotation.x = -Math.cos(this.windTime)*Math.PI/16*dt;
+    this.leftEar.rotation.x = Math.cos(this.windTime) * Math.PI / 16 * dt;
+    this.rightEar.rotation.x = -Math.cos(this.windTime) * Math.PI / 16 * dt;
 
 
-    for (var i=0; i<this.mustaches.length; i++){
+    for (i = 0; i < this.mustaches.length; i++) {
         var m = this.mustaches[i];
-        var amp = (i<3) ? -Math.PI/8 : Math.PI/8;
-        m.rotation.y = amp + Math.cos(this.windTime + i)*dt*amp;
-    };
-
-    for (var i=0; i<this.bodyVertices.length; i++){
-        var tvInit = this.bodyInitPositions[i];
-        var tv = this.body.geometry.vertices[this.bodyVertices[i]];
-        tv.x = tvInit.x + this.head.position.x;
-        //tv.y = this.head.position.y;
-        //tv.z = 70;
+        var amp = (i < 3) ? -Math.PI / 8 : Math.PI / 8;
+        m.rotation.y = amp + Math.cos(this.windTime + i) * dt * amp;
     }
-    this.body.geometry.verticesNeedUpdate = true;
-}
+};
 
-function loop(){
+function loop() {
     render();
-    var xTarget = (mousePos.x-windowHalfX);
-    var yTarget= (mousePos.y-windowHalfY);
+    var xTarget = (mousePos.x - windowHalfX);
+    var yTarget = (mousePos.y - windowHalfY);
 
     lion.isDrying = isBlowing;
     fan.isBlowing = isBlowing;
     fan.update(xTarget, yTarget);
-    if(isBlowing) {
+    if (isBlowing) {
         lion.dry(xTarget, yTarget);
-    }else{
+    } else {
         lion.look(xTarget, yTarget);
     }
     requestAnimationFrame(loop);
 }
 
-function render(){
+function render() {
     if (controls) controls.update();
     renderer.render(scene, camera);
 }
@@ -695,20 +551,15 @@ createLights();
 createFloor();
 createLion();
 createFan();
-//createSphere();
 loop();
 
 
-function clamp(v,min, max){
-    return Math.min(Math.max(v, min), max);
-}
-
-function rule3(v,vmin,vmax,tmin, tmax){
-    var nv = Math.max(Math.min(v,vmax), vmin);
-    var dv = vmax-vmin;
-    var pc = (nv-vmin)/dv;
-    var dt = tmax-tmin;
-    var tv = tmin + (pc*dt);
+function rule3(v, vmin, vmax, tmin, tmax) {
+    var nv = Math.max(Math.min(v, vmax), vmin);
+    var dv = vmax - vmin;
+    var pc = (nv - vmin) / dv;
+    var dt = tmax - tmin;
+    var tv = tmin + (pc * dt);
     return tv;
 
 }
