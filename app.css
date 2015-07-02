@@ -13,7 +13,7 @@
 #instructions {
     position: absolute;
     width: 100%;
-    top: 75%;
+    top: 55%;
     left: 0;
     margin: auto;
     margin-top: 120px;
@@ -25,13 +25,29 @@
     user-select: none;
 }
 
+#gratitude{
+    position: absolute;
+    width: 100%;
+    top: 90%;
+    left: 0;
+    margin: auto;
+    font-family: 'Open Sans', sans-serif;
+    color: #888;
+    text-transform: uppercase;
+    text-align: center;
+    user-select: none;
+}
+
+#gratitude small{
+    font-size: .5em;
+}
+
 .lightInstructions {
     color: #993f4c;
     font-size: .8em;
 }
 
 .footer {
-    color: #534f4f;
     font-size: .7em;
 }
 
