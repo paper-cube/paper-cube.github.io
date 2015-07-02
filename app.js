@@ -243,13 +243,15 @@ Elephant = function () {
     var bodyGeom = new THREE.CylinderGeometry(60, 90, 140, 10);
     var tuskGeom = new THREE.CylinderGeometry(5, 10, 70, 10);
     tuskGeom.applyMatrix(new THREE.Matrix4().makeRotationX(-4));
-    var earGeom = new THREE.BoxGeometry(120, 125, 20);
-    earGeom.applyMatrix(new THREE.Matrix4().makeRotationY(10));
+    var earGeom = new THREE.CylinderGeometry(70, 80, 10);
+    earGeom.applyMatrix(new THREE.Matrix4().makeRotationX(1.57));
     var noseGeom = new THREE.CylinderGeometry(25, 10, 120, 50);
-    noseGeom.applyMatrix(new THREE.Matrix4().makeRotationX(-6.6));
-    var eyeGeom = new THREE.BoxGeometry(5, 20, 20);
-    var irisGeom = new THREE.BoxGeometry(4, 10, 10);
+    noseGeom.applyMatrix(new THREE.Matrix4().makeRotationX(-6.9));
+    var eyeGeom = new THREE.SphereGeometry(12, 100, 100);
+    var irisGeom = new THREE.SphereGeometry(4, 10, 10);
     var footGeom = new THREE.CylinderGeometry(27, 27, 40, 8);
+
+    var smileGeom = new THREE.TorusGeometry( 12, 4, 2, 10, Math.PI );
 
     // body
     this.body = new THREE.Mesh(bodyGeom, this.blueMat);
@@ -320,37 +322,45 @@ Elephant = function () {
 
     // eyes
     this.leftEye = new THREE.Mesh(eyeGeom, this.whiteMat);
-    this.leftEye.position.x = 45;
+    this.leftEye.position.x = 40;
     this.leftEye.position.z = 120;
     this.leftEye.position.y = 25;
 
     this.rightEye = new THREE.Mesh(eyeGeom, this.whiteMat);
-    this.rightEye.position.x = -45;
+    this.rightEye.position.x = -40;
     this.rightEye.position.z = 120;
     this.rightEye.position.y = 25;
 
+    // smile
+    this.smile = new THREE.Mesh(smileGeom, this.redMat);
+    this.smile.position.z = 145;
+    this.smile.position.y = -50;
+    this.smile.rotation.z = 2.8;
+    this.smile.rotation.x = 0.7;
     // iris
     this.leftIris = new THREE.Mesh(irisGeom, this.purpleMat);
-    this.leftIris.position.x = 47;
+    this.leftIris.position.x = 50;
     this.leftIris.position.z = 120;
     this.leftIris.position.y = 25;
 
     this.rightIris = new THREE.Mesh(irisGeom, this.purpleMat);
-    this.rightIris.position.x = -47;
+    this.rightIris.position.x = -50;
     this.rightIris.position.z = 120;
     this.rightIris.position.y = 25;
 
     // ear
     this.rightEar = new THREE.Mesh(earGeom, this.blueMat);
-    this.rightEar.position.x = -80;
-    this.rightEar.position.y = 13;
-    this.rightEar.position.z = 105;
+    this.rightEar.position.x = -90;
+    this.rightEar.position.y = 27;
+    this.rightEar.position.z = 115;
+    this.rightEar.rotation.y = 0.4;
 
     this.leftEar = new THREE.Mesh(earGeom, this.blueMat);
     this.leftEar.applyMatrix(new THREE.Matrix4().makeRotationZ(-Math.PI));
-    this.leftEar.position.x = 80;
-    this.leftEar.position.y = 13;
-    this.leftEar.position.z = 105;
+    this.leftEar.position.x = 90;
+    this.leftEar.position.y = 27;
+    this.leftEar.position.z = 115;
+    this.leftEar.rotation.y = -0.4;
 
     // nose
     this.nose = new THREE.Mesh(noseGeom, this.blueMat);
@@ -365,6 +375,8 @@ Elephant = function () {
     this.head.add(this.nose);
     this.head.add(this.leftEye);
     this.head.add(this.rightEye);
+    this.head.add(this.mouth);
+    this.head.add(this.smile);
     this.head.add(this.leftIris);
     this.head.add(this.rightIris);
     this.head.add(this.tusk1);
@@ -453,7 +465,7 @@ Elephant.prototype.dry = function (xTarget, yTarget) {
     this.tIrisYScale = 0.1;
     this.tIrisZScale = 3;
 
-    this.tIrisPosY = 20;
+    this.tIrisPosY = 25;
     this.tLeftIrisPosZ = 120;
     this.tRightIrisPosZ = 120;
 
