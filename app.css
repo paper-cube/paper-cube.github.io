@@ -22,7 +22,6 @@
     font-size: .9em;
     text-transform: uppercase;
     text-align: center;
-    user-select: none;
 }
 
 #gratitude{
@@ -35,11 +34,18 @@
     color: #888;
     text-transform: uppercase;
     text-align: center;
-    user-select: none;
 }
 
 #gratitude small{
     font-size: .5em;
+}
+
+#instructions,
+#gratitude {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .lightInstructions {
